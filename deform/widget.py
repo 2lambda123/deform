@@ -33,6 +33,8 @@ _BLANK = text_("")
 
 
 def _normalize_choices(values):
+    """"""
+    
     result = []
     for item in values:
         if isinstance(item, OptGroup):
@@ -48,6 +50,8 @@ def _normalize_choices(values):
 
 class _PossiblyEmptyString(String):
     def deserialize(self, node, cstruct):
+        """"""
+        
         if cstruct == "":
             return _BLANK  # String.deserialize returns null
         return super(_PossiblyEmptyString, self).deserialize(node, cstruct)
@@ -55,6 +59,8 @@ class _PossiblyEmptyString(String):
 
 class _StrippedString(_PossiblyEmptyString):
     def deserialize(self, node, cstruct):
+        """"""
+        
         appstruct = super(_StrippedString, self).deserialize(node, cstruct)
         if isinstance(appstruct, str):
             appstruct = appstruct.strip()
@@ -63,6 +69,8 @@ class _StrippedString(_PossiblyEmptyString):
 
 class _FieldStorage(SchemaType):
     def deserialize(self, node, cstruct):
+        """"""
+        
         if cstruct in (null, None, b""):
             return null
         # weak attempt at duck-typing
@@ -211,6 +219,8 @@ class Widget(object):
     requirements = ()
 
     def __init__(self, **kw):
+        """"""
+        
         self.__dict__.update(kw)
 
     def serialize(self, field, cstruct, **kw):
@@ -257,6 +267,8 @@ class Widget(object):
                     subfield.widget.handle_error(subfield, e)
 
     def get_template_values(self, field, cstruct, kw):
+        """"""
+        
         values = {"cstruct": cstruct, "field": field}
         values.update(kw)
         values.pop("template", None)
@@ -317,6 +329,8 @@ class TextInputWidget(Widget):
     requirements = ()
 
     def __init__(self, **kw):
+        """"""
+        
         super().__init__(**kw)
         if getattr(self, "mask", False):
             self.requirements = tuple(
@@ -324,6 +338,8 @@ class TextInputWidget(Widget):
             )
 
     def serialize(self, field, cstruct, **kw):
+        """"""
+        
         if cstruct in (null, None):
             cstruct = ""
         readonly = kw.get("readonly", self.readonly)
@@ -332,6 +348,8 @@ class TextInputWidget(Widget):
         return field.renderer(template, **values)
 
     def deserialize(self, field, pstruct):
+        """"""
+        
         if pstruct is null:
             return null
         elif not isinstance(pstruct, str):
@@ -402,6 +420,8 @@ class MoneyInputWidget(Widget):
     options = None
 
     def serialize(self, field, cstruct, **kw):
+        """"""
+        
         if cstruct in (null, None):
             cstruct = ""
         readonly = kw.get("readonly", self.readonly)
@@ -415,6 +435,8 @@ class MoneyInputWidget(Widget):
         return field.renderer(template, **values)
 
     def deserialize(self, field, pstruct):
+        """"""
+        
         if pstruct is null:
             return null
         elif not isinstance(pstruct, str):
@@ -492,6 +514,8 @@ class AutocompleteInputWidget(Widget):
     requirements = (("typeahead", None), ("deform", None))
 
     def serialize(self, field, cstruct, **kw):
+        """"""
+        
         if "delay" in kw or getattr(self, "delay", None):
             raise ValueError(
                 "AutocompleteWidget does not support *delay* parameter "
@@ -516,6 +540,8 @@ class AutocompleteInputWidget(Widget):
         return field.renderer(template, **tmpl_values)
 
     def deserialize(self, field, pstruct):
+        """"""
+        
         if pstruct is null:
             return null
         elif not isinstance(pstruct, str):
@@ -570,11 +596,15 @@ class TimeInputWidget(Widget):
     )
 
     def __init__(self, *args, **kwargs):
+        """"""
+        
         self.options = dict(self.default_options)
         self.options["formatSubmit"] = "HH:i"
         Widget.__init__(self, *args, **kwargs)
 
     def serialize(self, field, cstruct, **kw):
+        """"""
+        
         if cstruct in (null, None):
             cstruct = ""
         readonly = kw.get("readonly", self.readonly)
@@ -588,6 +618,8 @@ class TimeInputWidget(Widget):
         return field.renderer(template, **values)
 
     def deserialize(self, field, pstruct):
+        """"""
+        
         if pstruct in ("", null):
             return null
         try:
@@ -638,6 +670,8 @@ class DateInputWidget(Widget):
     )
 
     def serialize(self, field, cstruct, **kw):
+        """"""
+        
         if cstruct in (null, None):
             cstruct = ""
         readonly = kw.get("readonly", self.readonly)
@@ -651,6 +685,8 @@ class DateInputWidget(Widget):
         return field.renderer(template, **values)
 
     def deserialize(self, field, pstruct):
+        """"""
+        
         if pstruct in ("", null):
             return null
         try:
@@ -708,6 +744,8 @@ class DateTimeInputWidget(Widget):
     )
 
     def serialize(self, field, cstruct, **kw):
+        """"""
+        
         if cstruct in (null, None):
             cstruct = ""
         readonly = kw.get("readonly", self.readonly)
@@ -750,6 +788,8 @@ class DateTimeInputWidget(Widget):
         return field.renderer(template, **values)
 
     def deserialize(self, field, pstruct):
+        """"""
+        
         if pstruct is null:
             return null
         else:
