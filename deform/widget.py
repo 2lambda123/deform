@@ -3,7 +3,6 @@
 import csv
 from io import StringIO
 import json
-import random
 import string
 from urllib.parse import quote
 
@@ -20,6 +19,7 @@ from translationstring import TranslationString
 
 from .i18n import _
 from .utils import text_
+import secrets
 
 
 sequence_types = (
@@ -1827,7 +1827,7 @@ class FileUploadWidget(Widget):
     def random_id(self):
         return "".join(
             [
-                random.choice(string.ascii_uppercase + string.digits)
+                secrets.SystemRandom().choice(string.ascii_uppercase + string.digits)
                 for _ in range(10)
             ]
         )
